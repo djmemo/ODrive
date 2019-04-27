@@ -1,11 +1,10 @@
 const path = require('path');
 const os = require('os');
-const google = require('googleapis');
+const {google} = require('googleapis');
 const EventEmitter = require('events');
 
 const Sync = require('./sync');
 const globals = require('../../config/globals');
-const OAuth2 = google.auth.OAuth2;
 
 const toSave = ["email", "about", "tokens", "folder", "saveTime", "permanentlyDeleteSetting"];
 
@@ -17,7 +16,7 @@ class Account extends EventEmitter {
       this.previousSaveTime = doc.saveTime || Date.now();
     }
     this.folder = this.folder || path.join(os.homedir(), "Google Drive");
-    this.oauth = new OAuth2(
+    this.oauth = new google.auth.OAuth2(
       globals.api,
       globals.secret,
       `http://127.0.0.1:${globals.port}/authCallback`
@@ -66,7 +65,7 @@ class Account extends EventEmitter {
         }
 
         this.about = about;
-        this.email = about.user.emailAddress;
+        this.email = about.data.user.emailAddress;
 
         this.save().then(resolve, reject);
       });
@@ -127,6 +126,7 @@ class Account extends EventEmitter {
   }
 
   onTokensReceived(tokens) {
+    console.log("Tokens :", tokens);
     this.tokens = tokens;
 
     this.oauth.setCredentials(tokens);

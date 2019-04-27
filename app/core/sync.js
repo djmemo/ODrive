@@ -770,7 +770,9 @@ class Sync extends EventEmitter {
 
     let q = folder ? `trashed = false and "${folder}" in parents` : null;
 
-    let {nextPageToken, files} = await this.filesListChunk({folder,q});
+    let res = await this.filesListChunk({folder,q});
+    console.log(res.data.files);
+    // let { nextPageToken, files }
 
     debug(files, nextPageToken);
     debug("(Chunk 1)");
@@ -817,7 +819,7 @@ class Sync extends EventEmitter {
         if (err) {
           return reject(err);
         }
-
+        console.log("result :", result);
         resolve(result);
       });
     });
