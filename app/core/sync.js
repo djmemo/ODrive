@@ -139,9 +139,9 @@ class Sync extends EventEmitter {
     let fileSize = 0;
 
     while (files.length > 0) {
-      console.log("################");
-      console.log("files.length :", files.length);
-      console.log("################");
+      // console.log("################");
+      // console.log("files.length :", files.length);
+      // console.log("################");
       var fileQueue = [];
       for (let i = 0; i < 10; i++) {
         if (files.length >= 1) {
@@ -198,7 +198,7 @@ class Sync extends EventEmitter {
       await this.computePaths();
 
       let result = await this.ParallelMapFlow(files, notifyCallback);
-      console.log("result :", result);
+      // console.log("result :", result);
       notify(`All done! ${result.counter} (${this.formatBytes(result.fileSize)}) files downloaded and ${result.ignored} ignored.`);
       this.syncing = false;
       this.synced = true;
@@ -771,7 +771,8 @@ class Sync extends EventEmitter {
     let q = folder ? `trashed = false and "${folder}" in parents` : null;
 
     let res = await this.filesListChunk({folder,q});
-    console.log(res.data.files);
+    let files = res.data.files;
+    let nextPageToken;
     // let { nextPageToken, files }
 
     debug(files, nextPageToken);
@@ -819,7 +820,6 @@ class Sync extends EventEmitter {
         if (err) {
           return reject(err);
         }
-        console.log("result :", result);
         resolve(result);
       });
     });

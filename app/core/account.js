@@ -126,7 +126,6 @@ class Account extends EventEmitter {
   }
 
   onTokensReceived(tokens) {
-    console.log("Tokens :", tokens);
     this.tokens = tokens;
 
     this.oauth.setCredentials(tokens);
