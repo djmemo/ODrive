@@ -30,7 +30,6 @@ module.exports = {
         test: /\.scss$/,
         use: [
           { loader: MiniCssExtractPlugin.loader },
-          { loader: "style-loader" },
           { loader: "css-loader" },
           { loader: "resolve-url-loader" },
           { loader: "sass-loader?sourceMap" },
@@ -68,7 +67,9 @@ module.exports = {
       $: 'jquery', jquery: 'jquery', jQuery: 'jquery',
       "window.Tether": 'tether', "Popper": "popper.js"
     }),
-    new MiniCssExtractPlugin("stylesheets/styles.css")
+    new MiniCssExtractPlugin(
+      { filename: 'stylesheets/styles.css'}
+    )
   ],
   externals: {
     jquery: 'jQuery'
